@@ -27,3 +27,4 @@ class UserInDBBase(UserBase):
 
 class UserWithRoles(UserInDBBase):
     roles: List[str] = []
+    role_ids: List[int] = []
