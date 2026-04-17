@@ -14,3 +14,4 @@ class User(Base):
 
     tenant = relationship("Tenant", back_populates="users")
     user_roles = relationship("RoleUserMapping", back_populates="user", cascade="all, delete-orphan")
+    favorites = relationship("FavoriteProduct", back_populates="user", cascade="all, delete-orphan")

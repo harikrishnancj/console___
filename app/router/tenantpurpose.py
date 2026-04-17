@@ -22,6 +22,8 @@ from app.schemas.permission import PermissionResponse
 from app.schemas.base import BaseResponse
 from app.utils.response import wrap_response
 from app.crud import crud4permission as permission_crud
+from app.schemas.favorite import FavoriteToggle, FavoriteResponse
+from app.crud import crud4favorite as favorite_crud
 
 router = APIRouter()
 
@@ -293,3 +295,32 @@ async def get_permissions_for_role(role_id: int, auth: dict = Depends(get_sessio
 async def get_permissions(db: Session = Depends(get_db), auth: dict = Depends(get_session_identity)):
     result = permission_crud.get_all_permissions(db=db)
     return wrap_response(data=result, message="Permissions retrieved successfully")
+
+
+@router.post("/products/favorite")
+async def toggle_favorite(
+    data: FavoriteToggle,
+    auth: dict = Depends(get_session_identity),
+    db: Session = Depends(get_db)
+):
+    """Adds or removes a product from favorites."""
+    result = favorite_crud.toggle_favorite(
+        db=db,
+        product_id=data.product_id,
+        tenant_id=auth["tenant_id"],
+        user_id=auth.get("user_id")
+    )
+    return wrap_response(data=result, message=f"Product {result['status']} favorites")
+
+@router.get("/products/favorites", response_model=BaseResponse[List[FavoriteResponse]])
+async def get_my_favorites(
+    auth: dict = Depends(get_session_identity),
+    db: Session = Depends(get_db)
+):
+    """Retrieves all favorite products for the current session user/tenant."""
+    result = favorite_crud.get_favorites(
+        db=db,
+        tenant_id=auth["tenant_id"],
+        user_id=auth.get("user_id")
+    )
+    return wrap_response(data=result, message="Favorites fetched successfully")

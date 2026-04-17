@@ -10,6 +10,7 @@ from .token_usage_storage import TokenUsageStorage
 from .permission import Permission
 from .role_permission_mapping import RolePermissionMapping
 from .product_session import ProductSession
+from .favorite_product import FavoriteProduct
 
 # Explicitly export all models for Alembic and global imports
 __all__ = [
@@ -25,4 +26,5 @@ __all__ = [
     "Permission",
     "RolePermissionMapping",
     "ProductSession",
+    "FavoriteProduct",
 ]

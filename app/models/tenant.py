@@ -15,3 +15,4 @@ class Tenant(Base):
     users = relationship("User", back_populates="tenant", cascade="all, delete-orphan")
     products_link = relationship("TenantProductMapping", back_populates="tenant", cascade="all, delete-orphan")
     roles = relationship("Role", back_populates="tenant", cascade="all, delete-orphan")
+    favorites = relationship("FavoriteProduct", back_populates="tenant", cascade="all, delete-orphan")

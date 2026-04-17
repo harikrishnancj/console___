@@ -16,3 +16,4 @@ class Product(Base):
 
     tenant_mappings = relationship("TenantProductMapping", back_populates="product", cascade="all, delete-orphan")
     app_roles = relationship("AppRoleMapping", back_populates="product", cascade="all, delete-orphan")
+    favorites = relationship("FavoriteProduct", back_populates="product", cascade="all, delete-orphan")

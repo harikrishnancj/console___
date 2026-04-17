@@ -7,6 +7,7 @@ class Role(Base):
 
     role_id = Column(Integer, primary_key=True, index=True)
     role_name = Column(String(50), index=True)
+    description = Column(String(255), nullable=True)
     tenant_id = Column(Integer, ForeignKey("tenants.tenant_id"))
 
     __table_args__ = (

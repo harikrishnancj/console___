@@ -24,7 +24,7 @@ def get_all_roles(db: Session, tenant_id: int = None, role_name: Optional[str] =
 def create_role(db: Session, role: RoleCreate, tenant_id: int):
     role_name = role.role_name.strip().lower()
 
-    db_role = Role(role_name=role_name, tenant_id=tenant_id)
+    db_role = Role(role_name=role_name, description=role.description, tenant_id=tenant_id)
 
     try:
         db.add(db_role)
