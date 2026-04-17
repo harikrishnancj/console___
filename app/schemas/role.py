@@ -23,5 +23,6 @@ class RoleUserCount(BaseModel):
     role_name: str
     description: Optional[str] = None
     user_count: int
+    role_id: int
         
 
