@@ -21,6 +21,7 @@ class RoleInDBBase(RoleBase):
 
 class RoleUserCount(BaseModel):
     role_name: str
+    description: Optional[str] = None
     user_count: int
         
 

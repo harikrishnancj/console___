@@ -79,6 +79,7 @@ def get_roles_user_count(db: Session, tenant_id: int):
     return [
         {
             "role_name": role.role_name,
+            "description": role.description,
             "user_count": user_count
         }
         for role, user_count in results

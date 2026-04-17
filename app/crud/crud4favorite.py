@@ -6,17 +6,16 @@ from fastapi import HTTPException
 from typing import Optional
 
 def toggle_favorite(db: Session, product_id: int, tenant_id: int, user_id: Optional[int] = None):
-    # 1. Access Check
-    has_access = False
-    if user_id:
-        # Check if User has role-based access to the product
-        has_access = check_user_product_access(db, user_id, tenant_id, product_id)
-    else:
-        # Check if Tenant is subscribed to the product
-        has_access = product_crud.get_tenant_product_by_id(db, tenant_id, product_id) is not None
+    # 1. Access Check: Check if Tenant is subscribed to the product.
+    # We allow favoriting if the tenant has purchased the product, 
+    # even if the specific user doesn't have individual launch access yet.
+    has_access = product_crud.get_tenant_product_by_id(db, tenant_id, product_id) is not None
 
     if not has_access:
-        raise HTTPException(status_code=403, detail="Access denied: You cannot favorite a product you aren't assigned to.")
+        raise HTTPException(
+            status_code=403, 
+            detail="Access denied: You cannot favorite a product that your tenant has not subscribed to."
+        )
 
     # 2. Toggle Logic
     existing = db.query(FavoriteProduct).filter(
