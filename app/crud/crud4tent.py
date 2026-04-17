@@ -95,11 +95,6 @@ def get_all_users(db: Session, tenant_id: int, name: Optional[str] = None, email
                 mapping.role.role_name 
                 for mapping in user.user_roles 
                 if mapping.role and mapping.role.tenant_id == tenant_id
-            ])),
-            "role_ids": list(set([
-                mapping.role.role_id
-                for mapping in user.user_roles 
-                if mapping.role and mapping.role.tenant_id == tenant_id
             ]))
         })
 
@@ -139,11 +134,6 @@ def search_users(db: Session, tenant_id: int, q: str, limit: int = 10):
             "tenant_id": user.tenant_id,
             "roles": list({
                 m.role.role_name
-                for m in user.user_roles
-                if m.role and m.role.tenant_id == tenant_id
-            }),
-            "role_ids": list({
-                m.role.role_id
                 for m in user.user_roles
                 if m.role and m.role.tenant_id == tenant_id
             }),
