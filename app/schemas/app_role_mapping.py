@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 class AppRoleMappingBase(BaseModel):
     product_id: int
-    role_id: list[int]
+    role_id: int
 
 
 class AppRoleMappingCreate(AppRoleMappingBase):
